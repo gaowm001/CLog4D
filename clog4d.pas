@@ -1,4 +1,62 @@
-﻿unit clog4d;
+﻿(*
+  This file is part of CLog4D Demo.
+
+  CLog4D is a library file for super fast log writing for Delphi and lazarus.
+
+  CLog4D Information - https://github.com/gaowm001/CLog4D
+
+  This demo file uses multi-threading to write logs, which takes less than a minute to write 10,000 logs
+
+  This program can classify and process different types of logs in one program, and write the logs to different log files.
+
+  author:
+  - GaoMing(QQ:17300620)
+
+  *** BEGIN LICENSE BLOCK *****
+  MIT License
+  Copyright (c) 2019 GAOMING
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+  ***** END LICENSE BLOCK *****
+
+  Version 0.2
+
+  Add property:defaultdatetime, default property is 'yyyymmdd', that means the log files generated  are named by date .
+  Then you can set this property to 'yyyymm' or 'yyyymmddhh', that means generate a separate log monthly or hourly .
+
+  Version 0.1
+
+  Example:
+
+  First,
+
+  uses Clog4D;
+
+  second,
+
+  gLogger.Writelog('Hello!');
+
+  then,
+
+  You will find 'LOG' directory, and log file in this dirctory.
+*)
+unit clog4d;
 
 {$H+}
 {$IFDEF FPC}
@@ -35,8 +93,7 @@ type
         FCount: integer;
         constructor Create;
         destructor Destroy; override;
-        function Push(Msg:LogRecord)
-          : TDateTime;
+        procedure Push(Msg: LogRecord);
         function Pop: LogRecord;
     end;
 
@@ -50,6 +107,7 @@ type
         FAppPath: string;
         FLevel: TLevel;
         FMessage: pLogRecord;
+        FDefaultDatetime:String;
     protected
         function GetLogMsg: LogRecord;
         procedure Execute; override;
@@ -64,6 +122,7 @@ type
           FileName: string = '');
         procedure SetModel(Level: TLevel);
         destructor Destroy; override;
+        property DefaultDatetime:String read FDefaultDatetime write FDefaultDatetime;
         property OnLogBefore: TOnlog read FOnlogBefore write FOnlogBefore;
         property OnLogAfter: TOnlog read FOnlogAfter write FOnlogAfter;
     end;
@@ -106,12 +165,10 @@ begin
     inherited;
 end;
 
-function TLogQueue.Push(Msg:LogRecord)
-  : TDateTime;
+procedure TLogQueue.Push(Msg: LogRecord);
 var
     Len, i: integer;
 begin
-    Result := Now;
     FCS.Enter;
     try
         Len := Length(FItems);
@@ -140,7 +197,7 @@ begin
         end;
         if FItems[FTail] = nil then
             New(FItems[FTail]);
-        FItems[FTail]^:=Msg;
+        FItems[FTail]^ := Msg;
         if FTail = Len - 1 then
             FTail := 0
         else
@@ -176,6 +233,7 @@ begin
     FLock := TCriticalSection.Create;
     FAppPath := ExtractFilePath(GetModuleName(HINSTANCE));
     SetModel(INFO);
+    FDefaultDatetime:='yyyymmdd';
     New(FMessage);
     inherited Create(False);
 end;
@@ -185,9 +243,9 @@ begin
     if FMessage <> nil then
         Dispose(FMessage);
     if Assigned(OnLogBefore) then
-       OnLogBefore:=nil;
-    if Assigned(OnlogAfter) then
-       OnlogAfter:=nil;
+        OnLogBefore := nil;
+    if Assigned(OnLogAfter) then
+        OnLogAfter := nil;
     FQueue.Free;
     FLock.Free;
     inherited;
@@ -205,15 +263,15 @@ begin
     logMsg := '[' + IntToStr(ThreadId) + ']' + logMsg;
     FLock.Enter;
     try
-            FMessage.FileName := FileName;
-            FMessage.Level := Level;
-            FMessage.Log := logMsg;
-            FMessage.LogTime:=Now;
+        FMessage.FileName := FileName;
+        FMessage.Level := Level;
+        FMessage.Log := logMsg;
+        FMessage.LogTime := Now;
         if Assigned(FOnlogBefore) then
         begin
             Synchronize(SynlogBefore);
         end;
-        FMessage.LogTime := FQueue.Push(FMessage^);
+        FQueue.Push(FMessage^);
     finally
         FLock.Leave;
     end;
@@ -225,12 +283,11 @@ var
     LogMessage: string;
     hFile: TextFile;
 begin
-    FLock.Enter;
     try
         if not DirectoryExists(FAppPath + 'LOG') then
             ForceDirectories(FAppPath + 'LOG');
         if sMsg.FileName = '' then
-            fn := FAppPath + 'LOG\' + FormatDateTime('yyyymmdd',
+            fn := FAppPath + 'LOG\' + FormatDateTime(FDefaultDatetime,
               sMsg.LogTime) + '.log'
         else
             fn := FAppPath + 'LOG\' + sMsg.FileName;
@@ -253,7 +310,6 @@ begin
             CloseFile(hFile);
         end;
     finally
-        FLock.Leave;
     end;
 end;
 
@@ -303,6 +359,6 @@ gLogger := TLogger.Create;
 
 finalization
 
-gLogger.Free ;
+gLogger.Free;
 
 end.

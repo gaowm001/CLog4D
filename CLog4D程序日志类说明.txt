@@ -1,0 +1,11 @@
+﻿CLog4D:日志类
+
+CLog4D是一款Delphi/Lazarus使用的日志类，开箱即用，速度快，线程级安全。
+
+使用：
+1、引用CLog4D单元
+2、调用gLogger.WriteLog('Hello!');
+在当前文件LOG目录下有日志文件产生，详见DEMO，内有同时运行100线程，每线程写100条日志的例子，写入这10000条日志耗时约为10多秒。
+
+下载地址：https://github.com/gaowm001/CLog4D
+QQ：17300620

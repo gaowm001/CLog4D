@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BorlandProject>
-	<Transactions>
-    <Transaction>2019/03/23 13:19:01.000.537,=D:\我的文档\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
-    <Transaction>2019/03/23 13:25:40.000.064,D:\我的文档\Embarcadero\Studio\Projects\Unit2.pas=D:\CLog4D\Main.pas</Transaction>
-    <Transaction>2019/03/23 13:25:40.000.064,D:\我的文档\Embarcadero\Studio\Projects\Unit2.dfm=D:\CLog4D\Main.dfm</Transaction>
-    <Transaction>2019/03/23 13:25:47.000.190,D:\我的文档\Embarcadero\Studio\Projects\Project2.dproj=D:\CLog4D\Demo.dproj</Transaction>
-  </Transactions>
-</BorlandProject>
