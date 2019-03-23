@@ -230,7 +230,7 @@ begin
         if not DirectoryExists(FAppPath + 'LOG') then
             ForceDirectories(FAppPath + 'LOG');
         if sMsg.FileName = '' then
-            fn := FAppPath + 'LOG\' + FormatDateTime('yyyymm',
+            fn := FAppPath + 'LOG\' + FormatDateTime('yyyymmdd',
               sMsg.LogTime) + '.log'
         else
             fn := FAppPath + 'LOG\' + sMsg.FileName;

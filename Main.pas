@@ -44,8 +44,11 @@ var
     FormMain: TFormMain;
 
 implementation
-
+{$IFDEF FPC}
+{$R *.lfm}
+{$ELSE}
 {$R *.dfm}
+{$ENDIF}
 { TFormMain }
 
 procedure WriteLog;
@@ -78,7 +81,7 @@ var
 begin
     for i := 1 to 100 do
     begin
-        TThread.CreateAnonymousThread(WriteLog).Start;
+        TThread.CreateAnonymousThread({$IFDEF FPC}@{$ENDIF}WriteLog).Start;
     end;
 end;
 

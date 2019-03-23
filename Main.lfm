@@ -1,0 +1,123 @@
+object FormMain: TFormMain
+  Left = 409
+  Height = 279
+  Top = 177
+  Width = 436
+  Caption = 'FormMain'
+  ClientHeight = 279
+  ClientWidth = 436
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  LCLVersion = '2.0.0.4'
+  object LabelFileName: TLabel
+    Left = 18
+    Height = 13
+    Top = 112
+    Width = 40
+    Caption = 'filename'
+    Color = clBtnFace
+    ParentColor = False
+    Transparent = False
+  end
+  object LabelLevel: TLabel
+    Left = 18
+    Height = 13
+    Top = 75
+    Width = 22
+    Caption = 'level'
+    Color = clBtnFace
+    ParentColor = False
+    Transparent = False
+  end
+  object LabelLog: TLabel
+    Left = 18
+    Height = 13
+    Top = 32
+    Width = 14
+    Caption = 'log'
+    Color = clBtnFace
+    ParentColor = False
+    Transparent = False
+  end
+  object EditFileName: TEdit
+    Left = 76
+    Height = 21
+    Top = 104
+    Width = 80
+    TabOrder = 0
+  end
+  object ComboBoxLevel: TComboBox
+    Left = 64
+    Height = 23
+    Top = 72
+    Width = 100
+    ItemHeight = 17
+    ItemIndex = 1
+    Items.Strings = (
+      'DEBUG'
+      'INFO'
+      'WARN'
+      'ERROR'
+      'FATAL'
+    )
+    Style = csOwnerDrawVariable
+    TabOrder = 1
+    Text = 'INFO'
+  end
+  object EditLog: TEdit
+    Left = 64
+    Height = 21
+    Top = 32
+    Width = 98
+    TabOrder = 2
+    Text = 'Hello'
+  end
+  object MemoLog: TMemo
+    Left = 184
+    Height = 179
+    Top = 32
+    Width = 206
+    Lines.Strings = (
+      'MemoLog'
+    )
+    TabOrder = 3
+  end
+  object ButtonWrite: TButton
+    Left = 32
+    Height = 25
+    Top = 233
+    Width = 75
+    Caption = 'WriteLog'
+    OnClick = ButtonWriteClick
+    TabOrder = 4
+  end
+  object ButtonWriteThread: TButton
+    Left = 144
+    Height = 25
+    Top = 233
+    Width = 120
+    Caption = 'WriteLogThread'
+    OnClick = ButtonWriteThreadClick
+    TabOrder = 5
+  end
+  object CheckBoxBefore: TCheckBox
+    Left = 32
+    Height = 21
+    Top = 155
+    Width = 54
+    Caption = 'Before'
+    OnClick = CheckBoxBeforeClick
+    TabOrder = 6
+  end
+  object CheckBoxAfter: TCheckBox
+    Left = 32
+    Height = 21
+    Top = 194
+    Width = 47
+    Caption = 'After'
+    OnClick = CheckBoxAfterClick
+    TabOrder = 7
+  end
+end
