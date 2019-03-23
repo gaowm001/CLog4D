@@ -1,6 +1,6 @@
 # CLog4D
 
-Clog4D is for delphi/lazarus(coming soon).
+Clog4D is for delphi/lazarus.
 
 This is a test version.
 
