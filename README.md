@@ -1,6 +1,9 @@
 # CLog4D
 
   This file is part of CLog4D Demo.
+=======
+Clog4D is for delphi/lazarus.
+
 
   CLog4D is a library file for super fast log writing for Delphi and lazarus.
 
@@ -56,3 +59,4 @@
   then,
 
   You will find 'LOG' directory, and log file in this dirctory.
+
