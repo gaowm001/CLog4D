@@ -269,7 +269,7 @@ begin
         FMessage.LogTime := Now;
         if Assigned(FOnlogBefore) then
         begin
-            Synchronize(SynlogBefore);
+            SynlogBefore;
         end;
         FQueue.Push(FMessage^);
     finally
@@ -304,7 +304,7 @@ begin
             if Assigned(FOnlogAfter) then
             begin
                 FMessage^ := sMsg;
-                Synchronize(SynlogAfter);
+                SynlogAfter;
             end;
         finally
             CloseFile(hFile);
